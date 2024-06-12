@@ -16,7 +16,7 @@
       "MaximumValue": 50.0,
       "MinimumValue": 0.0,
       "StepValue": 5.0,
-      "InputValue": 25.0,
+      "InputValue": 5.0,
       "Id": "66721f6d418f4406abe7ec7d17529d70",
       "Inputs": [],
       "Outputs": [
@@ -38,7 +38,7 @@
       "NodeType": "NumberInputNode",
       "NumberType": "Double",
       "MaximumValue": 15.0,
-      "MinimumValue": 0.0,
+      "MinimumValue": 3.0,
       "StepValue": 3.0,
       "InputValue": 3.0,
       "Id": "821e06566d5f40368feb7029fc17672b",
@@ -64,7 +64,7 @@
       "MaximumValue": 5.0,
       "MinimumValue": 0.0,
       "StepValue": 1.0,
-      "InputValue": 5.0,
+      "InputValue": 0.0,
       "Id": "be426d4f6bdf4f3dbb9065a810aeb0e7",
       "Inputs": [],
       "Outputs": [
@@ -84,7 +84,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ncounts = IN[1]\r\ndistanPointY = IN[2]\r\ndistanPointZ = IN[3]\r\nlstPoint1 = []\r\nlstPoint2 = []\r\nlstPoint3 = []\r\nlstPoint4 = []\r\nlstPoint5 = []\r\nlstPoint6 = []\r\nlstPoint7 = []\r\n# Place your code below this line\r\nfor i in range(int(counts)):\r\n    point1 = Point.ByCoordinates(i,0,int(distanPointZ))\r\n    lstPoint1.append(point1)\r\n    point2 = Point.ByCoordinates(i,int(distanPointY),int(distanPointZ))\r\n    lstPoint2.append(point2)\r\n    point3 = Point.ByCoordinates(i,2*int(distanPointY),int(distanPointZ))\r\n    lstPoint3.append(point3)\r\n    if i == int(counts)-1:\r\n        point4 = Point.ByCoordinates(i,0,0)\r\n        point5 = Point.ByCoordinates(i,2*int(distanPointY),0)\r\nP1 =  Point.ByCoordinates(lstPoint1[0].X,0,0)\r\nP2 =  Point.ByCoordinates(lstPoint3[0].X,2*int(distanPointY),0)\r\nlstLine1 = []\r\nlstLine2 = []\r\nlstLine3 = []\r\nlstLine4 = []\r\nlstLine5 = []\r\nlstLine6 = []\r\nlstLine7 = []\r\nlstLine8 = []\r\nfor i in range(len(lstPoint1)-1):\r\n    lstLine1.append(Line.ByStartPointEndPoint(lstPoint1[i],lstPoint2[1:][i]))\r\n    lstLine2.append(Line.ByStartPointEndPoint(lstPoint2[i],lstPoint1[1:][i]))\r\n    lstLine3.append(Line.ByStartPointEndPoint(lstPoint3[i],lstPoint2[1:][i]))\r\n    lstLine4.append(Line.ByStartPointEndPoint(lstPoint2[i],lstPoint3[1:][i]))\r\nlstLine5.append(Line.ByStartPointEndPoint(lstPoint1[0],P1))\r\nlstLine6.append(Line.ByStartPointEndPoint(lstPoint1[len(lstPoint1)-1],point4))\r\nlstLine7.append(Line.ByStartPointEndPoint(lstPoint3[0],P2))\r\nlstLine8.append(Line.ByStartPointEndPoint(lstPoint3[len(lstPoint1)-1],point5))\r\nOUT = lstLine1,lstLine2,lstLine3,lstLine4,lstLine5,lstLine6,lstLine7,lstLine8\r\n\r\n\r\n",
+      "Code": "\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ncounts = IN[1]\r\ndistanPointY = IN[2]\r\ndistanPointZ = IN[3]\r\nif int(counts)>0 and int(distanPointZ) > 0:\r\n\tlstPoint1 = []\r\n\tlstPoint2 = []\r\n\tlstPoint3 = []\r\n\tlstPoint4 = []\r\n\tlstPoint5 = []\r\n\tlstPoint6 = []\r\n\tlstPoint7 = []\r\n# Place your code below this line\r\n\r\n\tfor i in range(int(counts)):\r\n\t    point1 = Point.ByCoordinates(i,0,int(distanPointZ))\r\n\t    lstPoint1.append(point1)\r\n\t    point2 = Point.ByCoordinates(i,int(distanPointY),int(distanPointZ))\r\n\t    lstPoint2.append(point2)\r\n\t    point3 = Point.ByCoordinates(i,2*int(distanPointY),int(distanPointZ))\r\n\t    lstPoint3.append(point3)\r\n\t    if i == int(counts)-1:\r\n\t        point4 = Point.ByCoordinates(i,0,0)\r\n\t        point5 = Point.ByCoordinates(i,2*int(distanPointY),0)\r\n\tP1 =  Point.ByCoordinates(lstPoint1[0].X,0,0)\r\n\tP2 =  Point.ByCoordinates(lstPoint3[0].X,2*int(distanPointY),0)\r\n\tlstLine1 = []\r\n\tlstLine2 = []\r\n\tlstLine3 = []\r\n\tlstLine4 = []\r\n\tlstLine5 = []\r\n\tlstLine6 = []\r\n\tlstLine7 = []\r\n\tlstLine8 = []\r\n\tfor i in range(len(lstPoint1)-1):\r\n\t    lstLine1.append(Line.ByStartPointEndPoint(lstPoint1[i],lstPoint2[1:][i]))\r\n\t    lstLine2.append(Line.ByStartPointEndPoint(lstPoint2[i],lstPoint1[1:][i]))\r\n\t    lstLine3.append(Line.ByStartPointEndPoint(lstPoint3[i],lstPoint2[1:][i]))\r\n\t    lstLine4.append(Line.ByStartPointEndPoint(lstPoint2[i],lstPoint3[1:][i]))\r\n\tlstLine5.append(Line.ByStartPointEndPoint(lstPoint1[0],P1))\r\n\tlstLine6.append(Line.ByStartPointEndPoint(lstPoint1[len(lstPoint1)-1],point4))\r\n\tlstLine7.append(Line.ByStartPointEndPoint(lstPoint3[0],P2))\r\n\tlstLine8.append(Line.ByStartPointEndPoint(lstPoint3[len(lstPoint1)-1],point5))\r\n\tOUT = lstLine1,lstLine2,lstLine3,lstLine4,lstLine5,lstLine6,lstLine7,lstLine8\r\n\r\n\r\n",
       "Engine": "IronPython2",
       "VariableInputPorts": true,
       "Id": "8bd4eb5a83fc4b5b8d5f8412d9a23647",
@@ -197,12 +197,12 @@
     },
     "Camera": {
       "Name": "Background Preview",
-      "EyeX": 44.432693481445313,
-      "EyeY": 17.749183654785156,
-      "EyeZ": 36.345779418945313,
-      "LookX": -15.2349853515625,
-      "LookY": -9.1964111328125,
-      "LookZ": -43.969512939453125,
+      "EyeX": 30.028226852416992,
+      "EyeY": 18.365765571594238,
+      "EyeZ": 18.076569557189941,
+      "LookX": -9.6384601593017578,
+      "LookY": -5.8181381225585938,
+      "LookZ": -27.817440032958984,
       "UpX": 0.0068565588444471359,
       "UpY": 0.99978071451187134,
       "UpZ": 0.019789703190326691
@@ -210,7 +210,7 @@
     "NodeViews": [
       {
         "ShowGeometry": true,
-        "Name": "Number Slider",
+        "Name": "X",
         "Id": "66721f6d418f4406abe7ec7d17529d70",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
@@ -220,23 +220,23 @@
       },
       {
         "ShowGeometry": true,
-        "Name": "Number Slider",
+        "Name": "Y",
         "Id": "821e06566d5f40368feb7029fc17672b",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -554.27632216544657,
-        "Y": 351.48566968154751
+        "X": -528.56444457093835,
+        "Y": 237.85575902194671
       },
       {
         "ShowGeometry": true,
-        "Name": "Number Slider",
+        "Name": "Z",
         "Id": "be426d4f6bdf4f3dbb9065a810aeb0e7",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -495.28528224519732,
-        "Y": 631.19426946936517
+        "X": -526.80306768362686,
+        "Y": 322.65173833526671
       },
       {
         "ShowGeometry": true,
@@ -245,8 +245,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 124.28987922721285,
-        "Y": 334.19940465703053
+        "X": 24.804445458605528,
+        "Y": 156.37282270062849
       },
       {
         "ShowGeometry": true,
@@ -255,13 +255,13 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -72.910986794268126,
-        "Y": 342.22222767485721
+        "X": -163.31217248339311,
+        "Y": 138.6000317500822
       }
     ],
     "Annotations": [],
-    "X": 354.80728506520813,
-    "Y": 43.175186276549226,
-    "Zoom": 0.5113923156487975
+    "X": 121.158248685077,
+    "Y": -131.28364990876895,
+    "Zoom": 1.2562396710474573
   }
 }
